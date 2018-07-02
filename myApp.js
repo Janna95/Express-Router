@@ -19,7 +19,6 @@ app.get('/form', function(req, res) {
     });
 });
 
-
 app.post('/form', function(req, res) {
     const user = {
         username: req.body.name,
@@ -34,13 +33,6 @@ app.post('/form', function(req, res) {
 
 var resultUsers = [];
 
-app.get('/result', (req,res) => {
-    
-    res.render('result', {
-        users : resultUsers,
-    })
-})
-
 app.get('/api/time', (req, res) => {
     let date = new Date();
     res.json(date);
@@ -48,14 +40,22 @@ app.get('/api/time', (req, res) => {
 
 app.post('/api/users', (req, res) => {
     let user = {
-        username: req.body.name,
+        username: req.body.username,
         gender: req.body.gender,
         agree: req.body.agree ? true : false,
         password: req.body.password,
     };
    resultUsers.push(user);
+   console.log(resultUsers)
    res.end();
 });
+
+app.get('/result', (req,res) => {
+    
+    res.render('result', {
+        users: resultUsers,
+    })
+})
 
 app.get('/api/users', (req, res) =>{
    res.json(resultUsers)
