@@ -4,7 +4,7 @@ block content
     div
         h1= title
 
-        form(action="/result" method="post")
+        form(action="/form" method="post")
             label(for="name") Username : 
             input(name="name")
             br
@@ -14,7 +14,7 @@ block content
             br
             br
             label Gender :  
-            select
+            select(name="gender")
                 option(desabled)
                 option(value="Male" name="gender") Male
                 option(value="Female" name="gender") Female

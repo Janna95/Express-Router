@@ -1,6 +1,11 @@
 extends layout
 
 block content
-    p= title
+    each user in users
+        div= user.username
+        div= user.gender
+        div= user.agree
+        div= user.password
+
     
     

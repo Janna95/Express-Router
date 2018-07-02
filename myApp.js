@@ -19,34 +19,47 @@ app.get('/form', function(req, res) {
     });
 });
 
-app.post('/result', function(req, res) {
+
+app.post('/form', function(req, res) {
     const user = {
-            username: req.body.name,
-            gender: req.body.gender,
-            agree: req.body.agree,
-            password: req.body.password,
-        }
-        users.push(user); 
-        console.log(users);
-    res.render('result', { title: "Result route is working. The data is saved" })
+        username: req.body.name,
+        gender: req.body.gender,
+        agree: req.body.agree ? true : false,
+        password: req.body.password,
+    }
+    users.push(user); 
+    console.log(req.body);
+    res.redirect('/result');
 });
 
-//GET /api/time
+var resultUsers = [];
+
+app.get('/result', (req,res) => {
+    
+    res.render('result', {
+        users : resultUsers,
+    })
+})
+
 app.get('/api/time', (req, res) => {
     let date = new Date();
     res.json(date);
 });
 
-//POST  /api/users
 app.post('/api/users', (req, res) => {
-   res.post(users)
-})
-
-// GET /api/users
-app.get('/api/users', (req, res) =>{
-   res.json(users)
+    let user = {
+        username: req.body.name,
+        gender: req.body.gender,
+        agree: req.body.agree ? true : false,
+        password: req.body.password,
+    };
+   resultUsers.push(user);
+   res.end();
 });
 
+app.get('/api/users', (req, res) =>{
+   res.json(resultUsers)
+});
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Server is running on port ${port} `));
