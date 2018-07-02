@@ -1,0 +1,32 @@
+extends layout.pug 
+
+block content
+    div
+        h1= title
+
+        form(action="/result" method="post")
+            label(for="name") Username : 
+            input(name="name")
+            br
+            br
+            label(for="password") Password : 
+            input(name="password")
+            br
+            br
+            label Gender :  
+            select
+                option(desabled)
+                option(value="Male" name="gender") Male
+                option(value="Female" name="gender") Female
+            br
+            br
+            label Agree with the terms  
+            input(type="checkbox" name="agree") 
+            br
+            br
+            button(type="submit" value="Submit") Submit
+
+
+
+
+    
