@@ -2,10 +2,10 @@ extends layout
 
 block content
     each user in users
-        div= user.username
-        div= user.gender
-        div= user.agree
-        div= user.password
+        div name: #{user.username}
+        div gender: #{user.gender}
+        div= agree #{user.agree}
+        div= password: #{user.password}
 
     
     

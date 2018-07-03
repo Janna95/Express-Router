@@ -1,17 +1,54 @@
 const express = require('express');
 const app = express();
-var bodyParser = require('body-parser')
+const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const moment = require('moment')
 
 let users = [];
 
 app.set('view engine', 'pug');
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false }));
 
-app.get('/', function(req, res) {
-    res.send('<h1>Hello World</h1') 
+app.use(cookieParser());
+
+/**
+ * Creating or sending existing cookies
+ */
+app.get('/', (req, res) => {
+
+    let cookie = req.cookies.time;
+    
+    if(cookie === undefined) {
+        console.log("Cookies created")
+        res.cookie("time", moment().format('LTS'))
+    }
+    else console.log("Cookies exist " + cookie)
+    
+    res.send(cookie);
 });
+
+/**
+ * Renders a page for route "/myroute/:param" param, param query, param header and param cookie
+ */
+app.get('/myroute/:param', (req, res) => {
+
+    res.cookie('param', "paramCookie", {maxAge:50000});
+    let result = {
+        "Params.param": req.params.param,
+        "Query.param": req.query.param,
+        "Header.param": req.get('param'),
+        "Cookie param": req.cookies.param,
+    };
+    res.json(result);
+
+    // console.log(req.params.param);
+    // console.log(req.query.param);
+    // console.log(req.get('param'));
+    // console.log(req.cookies.param) 
+})
 
 app.get('/form', function(req, res) {
     res.render('form', {
@@ -53,7 +90,7 @@ app.post('/api/users', (req, res) => {
 app.get('/result', (req,res) => {
     
     res.render('result', {
-        users: resultUsers,
+        users: users,
     })
 })
 
